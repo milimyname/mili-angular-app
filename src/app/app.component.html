@@ -1,31 +1,32 @@
-<div class="flex justify-center mx-auto mt-64">
-  <div class="bg-[#256D85] p-10 rounded-xl w-2/5">
+<div class="flex flex-col items-center justify-center mx-auto mt-32">
+  <div class="bg-[#256D85] p-10 rounded-xl w-2/5 mb-10">
     <h1 class="text-5xl text-white ">
       Team generator
     </h1>
-    <ul class="my-8 bg-[#DFF6FF] rounded-xl p-4 columns-2">
-      <li class="p-2 flex items-center gap-2">
+    <ul class="my-8 bg-[#DFF6FF] rounded-xl p-4 columns-2 min-h-[5rem]">
+      <li *ngFor="let member of members" class="p-2 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
         </svg>        
-        Kj
-      </li>
-      <li class="p-2 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-        </svg>        
-        Mili is my name
+        {{  member }}
       </li>
     </ul>
-    <div class="flex justify-between gap-4 font-bold text-white">
-      <div>
-        <input type='text' placeholder="Name" class="outline-none bg-[#47B5FF] placeholder:text-gray-900/25  p-4 mr-4 rounded-xl"/>
-        <button class="transition-colors bg-[#47B5FF] py-4 px-8 rounded-xl hover:bg-[#47B5FF]/80">Add</button>
+    <div class="flex flex-col gap-4 font-bold text-white">
+      <div class="flex-1 flex">
+        <input #addMemberInput (input)="onInput(addMemberInput.value)" type='text' placeholder="Name" class="outline-none w-full bg-[#47B5FF] placeholder:text-gray-900/25 p-4 mr-4 rounded-xl" [value]="newMemberName"/>
+        <button (click)="addMember()" class="transition-colors bg-[#47B5FF] py-4 px-8 rounded-xl hover:bg-[#47B5FF]/80">Add</button>
       </div>
-      <div>
-        <input type='text' placeholder="# of teams" class="outline-none bg-[#61d55f] placeholder:text-gray-900/25  p-4 mr-4 rounded-xl"/>
-        <button class="transition-colors bg-[#61d55f] py-4 px-8 rounded-xl hover:bg-[#61d55f]/80">Generate</button>
+      <div class="flex-1 flex">
+        <input #numberOfTeamsInput (input)="onNumberOfTeamsInput(numberOfTeamsInput.value)" [value]="numberOfTeams" type='number' min="1" placeholder="# of teams" class="outline-none w-full bg-[#61d55f] placeholder:text-gray-900/25  p-4 mr-4 rounded-xl"/>
+        <button (click)="generateTeams()" class="transition-colors bg-[#61d55f] py-4 px-8 rounded-xl hover:bg-[#61d55f]/80">Generate</button>
       </div>
     </div>
+
+    <p *ngIf="errorMessage" class="text-red-400 mt-4">{{errorMessage}}</p>
   </div>
+
+  <div *ngIf="teams.length" class="bg-[#256D85] p-10 rounded-xl w-2/5">
+    <app-team *ngFor="let team of teams; let i=index;" [team]="team" [index]="i"></app-team>
+  </div>
+
 </div>
